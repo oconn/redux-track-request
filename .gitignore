@@ -1,0 +1,17 @@
+# Dependency
+npm-debug.log*
+.npm
+node_modules
+jspm_packages
+
+# Distribution
+lib
+
+# Optional REPL history
+.node_repl_history
+
+# Mac files
+.DS_Store
+
+# TypeScript
+typings/

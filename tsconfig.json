@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "outDir": "./build/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "ES6",
+        "strictNullChecks": true
+    },
+    "include": [
+        "src/**/*",
+        "typings/**/*"
+    ]
+}

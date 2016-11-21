@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "parse-link-header": "registry:npm/parse-link-header#0.4.1+20160909152139",
+    "ramda": "registry:npm/ramda#0.21.0+20160531162943"
+  }
+}
