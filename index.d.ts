@@ -1,16 +1,21 @@
 import { Action, Store, Middleware, Dispatch } from 'redux';
 
-export type IAppState = {
-    request: IReducerState;
-};
-export type IBody = any;
 export type RequestMiddleware = (options: IOptions) => Middleware;
 export type RequestReducer = (state: IReducerState, action: Action) => IReducerState;
+
+export type IBody = any;
+
+export interface IError {
+    status: number;
+}
+
+export interface IAppState {
+    request: IReducerState;
+}
 
 export interface IRequestState {
     error: IError | null;
     status: number | null;
-    paginating: boolean;
     requestData: IResponseData | null;
 }
 
@@ -21,7 +26,7 @@ export type IReducerAction = Action & {
     payload: IRequestState;
 };
 
-export interface IRequestStatus {
+export interface IRequestHistory {
     requests: {
         [timestamp: string]: IRequestState;
     };
@@ -29,13 +34,11 @@ export interface IRequestStatus {
 }
 
 export interface IReducerState {
-    [requestId: string]: IRequestStatus;
+    [requestId: string]: IRequestHistory;
 }
 
-export interface IOptions {}
-
-export interface IError {
-    status: number;
+export interface IOptions {
+    onUnauthorized: () => any;
 }
 
 export interface IRequestAction {
@@ -43,7 +46,6 @@ export interface IRequestAction {
     type: string;
     onSuccess?: (body: IBody) => any;
     onFailure?: (error: IError) => any;
-    paginating?: boolean
 }
 
 export interface ILinkPage {

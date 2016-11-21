@@ -18,6 +18,7 @@ const isRequestAction = (action: Action | IRequestAction): action is IRequestAct
     return !!((<IRequestAction>action).request && (<IRequestAction>action).request.then);
 };
 
+// custom response parsers used to make accessing response data a bit easier
 const parseResponseData = (response: IResponse): IResponseData => {
     const { headers } = response;
 
@@ -27,7 +28,8 @@ const parseResponseData = (response: IResponse): IResponseData => {
     )(headers);
 };
 
-const handleRequestSuccess = (store: Store<IAppState>, action: IRequestAction, timestamp: string) => (response: IResponse): void => {
+const handleRequestSuccess = (store: Store<IAppState>, action: IRequestAction, timestamp: string, options: IOptions) => (response: IResponse): void => {
+    // if onSuccess callback was specified then trigger with body
     if (action.onSuccess && is(Function, action.onSuccess)) {
         action.onSuccess(response.body);
     }
@@ -35,7 +37,6 @@ const handleRequestSuccess = (store: Store<IAppState>, action: IRequestAction, t
     const payload: IRequestState = {
         error: null,
         status: response.status,
-        paginating: !!action.paginating,
         requestData: parseResponseData(response)
     };
 
@@ -49,15 +50,20 @@ const handleRequestSuccess = (store: Store<IAppState>, action: IRequestAction, t
     }, 0);
 };
 
-const handleRequestFailure = (store: Store<IAppState>, action: IRequestAction, timestamp: string) => (error: IError): void => {
+const handleRequestFailure = (store: Store<IAppState>, action: IRequestAction, timestamp: string, options: IOptions) => (error: IError): void => {
+    // if onFailure callback was specified then trigger with error
     if (action.onFailure && is(Function, action.onFailure)) {
         action.onFailure(error);
+    }
+
+    // if onUnauthorized callback is specified in options then trigger
+    if (error.status === 401 && is(Function, options.onUnauthorized)) {
+        options.onUnauthorized();
     }
 
     const payload: IRequestState = {
         error: error,
         status: null,
-        paginating: !!action.paginating,
         requestData: null
     };
 
@@ -67,14 +73,6 @@ const handleRequestFailure = (store: Store<IAppState>, action: IRequestAction, t
         timestamp,
         payload
     });
-
-    if (error.status === 401) {
-        // TODO
-    }
-
-    if (action.onFailure) {
-        action.onFailure(error);
-    }
 };
 
 export const middleware: RequestMiddleware = (options: IOptions) => (store: Store<IAppState>) => (next: Dispatch<IAppState>) => (action: Action) => {
@@ -83,12 +81,13 @@ export const middleware: RequestMiddleware = (options: IOptions) => (store: Stor
         return next(action);
     }
 
+    // since we track the history of all requests, we need to tie each specific request
+    // to the time it was dispatched.
     const timestamp = new Date().getTime().toString();
 
     const payload: IRequestState = {
         error: null,
         status: null,
-        paginating: !!action.paginating,
         requestData: null
     };
 
@@ -101,8 +100,8 @@ export const middleware: RequestMiddleware = (options: IOptions) => (store: Stor
     });
 
     action.request
-        .then(handleRequestSuccess(store, action, timestamp))
-        .catch(handleRequestFailure(store, action, timestamp));
+        .then(handleRequestSuccess(store, action, timestamp, options))
+        .catch(handleRequestFailure(store, action, timestamp, options));
 
     return next(action);
 }
