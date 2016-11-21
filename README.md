@@ -108,7 +108,7 @@ Now that all of your request data is managed in redux state, we need a way to ac
 
 Get request is your go to data accessor for determining the state of your request.
 
-```
+```js
 const { getRequest } from 'redux-request-tracker';
 
 const mapStateToProps = (state) => {
@@ -122,7 +122,7 @@ const mapStateToProps = (state) => {
 
 These data accessors are responsible for parsing request pagination if supported. Check out the *Pagination* section for more information.
 
-```
+```js
 const { getFirstPage, getLastPage, getNextPage, getPrevPage } from 'redux-request-tracker';
 
 const mapStateToProps = (state) => {
