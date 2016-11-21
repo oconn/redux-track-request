@@ -5,6 +5,14 @@
   "main": "lib/index.js",
   "author": "Matt O'Connell",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oconn/redux-track-request.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oconn/redux-track-request/issues"
+  },
+  "homepage": "https://github.com/oconn/redux-track-request#readme",
   "devDependencies": {
     "redux": "^3.6.0",
     "source-map-loader": "^0.1.5",
