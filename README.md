@@ -100,6 +100,32 @@ The `redux-request-tracker` middleware takes the following options
 
 - onUnauthorized:  Function  (optional)  callback triggered on all 401 responses
 
+### Connecting to your components
+
+As a convience, `redux-request-tracker` exposes `connectRequest`, a higher order function that binds request metadata to your components.
+
+```js
+import React, { Component } from 'react';
+import { connectRequest } from 'redux-request-tracker';
+
+class MyTodoComponent extends Component {
+    render() {
+        return // ...
+    }
+}
+
+export default connectRequest({ requestName: 'REQUEST_GET_TODOS' })(MyTodoComponent);
+```
+
+This will map the request tracking props to your Component
+
+```json
+{
+    "pending": true,
+    "lastPage": false
+}
+```
+
 ### Data accessors
 
 Now that all of your request data is managed in redux state, we need a way to access it in out views. The following are data accessors that come out of the box with `redux-request-tracker`, feel free to add your own or submit an isses if you would like to see any additions to this.
@@ -139,8 +165,6 @@ const mapStateToProps = (state) => {
 
 `redux-request-tracker` automatically parses the [Link Header](https://tools.ietf.org/html/rfc5988) if your server supports it. GitHub has a [good example](https://developer.github.com/guides/traversing-with-pagination/) of how this works.
 
+### Suggestions?
 
-## Roadmap
-
-- Add higher order components to handle loading logic
-- Add higher order components to handle pagination logic
+Feel free to reach out with feedback and suggestions for improvement.

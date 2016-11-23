@@ -1,7 +1,8 @@
 {
   "name": "redux-request-tracker",
-  "version": "0.0.1-beta.1",
+  "version": "0.0.1-beta.2",
   "description": "Redux binding and utilities for working with xhr request data",
+  "keywords": [ "redux", "react", "middleware", "request", "async" ],
   "main": "lib/index.js",
   "author": "Matt O'Connell",
   "license": "MIT",
@@ -13,22 +14,25 @@
     "url": "https://github.com/oconn/redux-track-request/issues"
   },
   "homepage": "https://github.com/oconn/redux-track-request#readme",
+  "scripts": {
+    "start": "webpack -w"
+  },
   "devDependencies": {
+    "react": "^15.4.1",
     "redux": "^3.6.0",
     "source-map-loader": "^0.1.5",
     "ts-loader": "^1.2.2",
     "typings": "^2.0.0",
     "webpack": "^1.13.3"
   },
-  "scripts": {
-    "start": "webpack -w"
-  },
   "peerDependencies": {
+    "react": "^15.4.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0"
   },
   "dependencies": {
     "parse-link-header": "^0.4.1",
-    "ramda": "^0.22.1"
+    "ramda": "^0.22.1",
+    "react-redux": "^4.4.6"
   }
 }

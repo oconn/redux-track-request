@@ -54,6 +54,13 @@ export interface ILinkPage {
     url: string;
 }
 
+export interface ILink {
+    next?: ILinkPage;
+    prev?: ILinkPage;
+    first?: ILinkPage;
+    last?: ILinkPage;
+}
+
 export interface IHeaders {}
 
 export interface IResponse {
@@ -63,12 +70,22 @@ export interface IResponse {
 }
 
 export interface IResponseData {
-    link?: {
-        nextPage?: ILinkPage;
-        prevPage?: ILinkPage;
-        firstPage?: ILinkPage;
-        lastPage?: ILinkPage;
-    };
+    link?: ILink;
 }
 
 export interface IRequestPayload {}
+
+interface IConnectOptions {
+    requestName: string;
+}
+
+interface IRequestHOProps {
+    _requestState: {
+        request: IRequestState | undefined;
+    };
+}
+
+interface IRequestProps {
+    pending: boolean;
+    lastPage: boolean;
+}
