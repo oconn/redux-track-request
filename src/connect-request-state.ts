@@ -27,9 +27,12 @@ const requestWrapper = (connectOptions: IConnectOptions, MyComponent: any): any 
         const parentProps: any = omit(['_requestProps'], props);
 
         if (!request) {
-            window.console.error(`request named "${requestName}" was not found in state`);
+            const componentProps: IRequestProps = merge(parentProps, {
+                pending: false,
+                lastPage: true
+            });
 
-            return createFactory(MyComponent)(parentProps);
+            return createFactory(MyComponent)(componentProps);
         }
 
         const { error, status, requestData } = request;
