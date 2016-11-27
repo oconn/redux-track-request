@@ -152,8 +152,6 @@ This will map the request tracking props to your Component
 - pending           *boolean* (a request has been dispatched, pending resolve)
 - lastPage          *boolean* (if link headers are being used, this will notify the component if the last page has been fetched)
 - requestDispatched *boolean* (determins if a namespaced request has ever been dispatched)
-}
-```
 
 ### Data accessors
 
