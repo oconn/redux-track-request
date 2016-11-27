@@ -104,6 +104,12 @@ The `redux-request-tracker` middleware takes the following options
 
 As a convience, `redux-request-tracker` exposes `connectRequest`, a higher order function that binds request metadata to your components.
 
+#### connectRequest
+
+Connect request can take the following parameters in an options hash
+
+- requestName *string | function (props) => string*
+
 ```js
 import React, { Component } from 'react';
 import { connectRequest } from 'redux-request-tracker';
@@ -117,12 +123,35 @@ class MyTodoComponent extends Component {
 export default connectRequest({ requestName: 'REQUEST_GET_TODOS' })(MyTodoComponent);
 ```
 
+##### Dynamic request tracking
+
+When connecting a component to your request store, you may not have a hard coded action that maps to a specific request. Lets say, for example, that you have a component that lists out a collection of TODOS. You could create the constant `REQUEST_FETCH_TODOS` in your actions that you would pass to the list views `connectRequest` function. Now lets say you have a component that only displays a single request and you have an action responsible for fetching individual todos. In this case you'll need a way to dynamically namespace your requests for each todo. To accomplish this, `connectRequest`, allows you to define the `requestName` option as a function that receives `props` as an argument. The following example uses the `params` prop passed in from [`react-router`](https://github.com/ReactTraining/react-router) to get the id out of the path and append it to the requestName.
+
+
+```js
+import React, { Component } from 'react';
+import { connectRequest } from 'redux-request-tracker';
+
+const REQUEST_GET_TODO = (id) => `REQUEST_GET_TODO_${id}`;
+
+class MyTodoComponent extends Component {
+    render() {
+        return // ...
+    }
+}
+
+export default connectRequest({
+    requestName: (props) => REQUEST_GET_TODO(props.params.id)
+})(MyTodoComponent);
+```
+
 This will map the request tracking props to your Component
 
-```json
-{
-    "pending": true,
-    "lastPage": false
+#### Request tracking props
+
+- pending           *boolean* (a request has been dispatched, pending resolve)
+- lastPage          *boolean* (if link headers are being used, this will notify the component if the last page has been fetched)
+- requestDispatched *boolean* (determins if a namespaced request has ever been dispatched)
 }
 ```
 

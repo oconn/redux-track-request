@@ -2,6 +2,7 @@ import { Action, Store, Middleware, Dispatch } from 'redux';
 
 export type RequestMiddleware = (options: IOptions) => Middleware;
 export type RequestReducer = (state: IReducerState, action: Action) => IReducerState;
+type IRequestNameFunction = any; // TODO: This throws a type error. (props: IRequestHOProps) => string;
 
 export type IBody = any;
 
@@ -76,7 +77,7 @@ export interface IResponseData {
 export interface IRequestPayload {}
 
 interface IConnectOptions {
-    requestName: string;
+    requestName: string | IRequestNameFunction;
 }
 
 interface IRequestHOProps {
@@ -88,4 +89,5 @@ interface IRequestHOProps {
 interface IRequestProps {
     pending: boolean;
     lastPage: boolean;
+    requestDispatched: boolean;
 }
