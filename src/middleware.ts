@@ -9,6 +9,7 @@ import {
     IOptions,
     IRequestAction,
     IRequestState,
+    IRequestHistoryState,
     IResponse,
     IResponseData,
     RequestMiddleware
@@ -51,14 +52,16 @@ const handleRequestSuccess = (store: Store<IAppState>, action: IRequestAction, t
 };
 
 const handleRequestFailure = (store: Store<IAppState>, action: IRequestAction, timestamp: string, options: IOptions) => (error: IError): void => {
+    const { onUnauthorized } = options;
+
     // if onFailure callback was specified then trigger with error
     if (action.onFailure && is(Function, action.onFailure)) {
         action.onFailure(error);
     }
 
     // if onUnauthorized callback is specified in options then trigger
-    if (error.status === 401 && is(Function, options.onUnauthorized)) {
-        options.onUnauthorized();
+    if (error.status === 401 && (onUnauthorized && is(Function, onUnauthorized))) {
+        onUnauthorized();
     }
 
     const payload: IRequestState = {
@@ -75,7 +78,7 @@ const handleRequestFailure = (store: Store<IAppState>, action: IRequestAction, t
     });
 };
 
-export const middleware: RequestMiddleware = (options: IOptions) => (store: Store<IAppState>) => (next: Dispatch<IAppState>) => (action: Action) => {
+export const middleware: RequestMiddleware = (options: IOptions = {}) => (store: Store<IAppState>) => (next: Dispatch<IAppState>) => (action: Action) => {
     // if the action is not a redux-request-action then next
     if (!isRequestAction(action)) {
         return next(action);
@@ -85,10 +88,31 @@ export const middleware: RequestMiddleware = (options: IOptions) => (store: Stor
     // to the time it was dispatched.
     const timestamp = new Date().getTime().toString();
 
+    // build path
+    const { pathname: requestingPage } = window.location;
+
+    const { getRequestMethod, getRequestUrl } = options;
+
+    // get request method
+    const method: string = getRequestMethod ?
+        getRequestMethod(action.request) :
+        (action.request && action.request.method) || 'unknown';
+
+    // get request url
+    const url: string = getRequestUrl ?
+        getRequestUrl(action.request) :
+        (action.request && action.request.url) || 'unknown';
+
     const payload: IRequestState = {
         error: null,
         status: null,
         requestData: null
+    };
+
+    const history: IRequestHistoryState = {
+        requestingPage,
+        method,
+        url
     };
 
     // dispatch request start action
@@ -96,7 +120,8 @@ export const middleware: RequestMiddleware = (options: IOptions) => (store: Stor
         type: TRACK_REQUEST,
         requestId: action.type,
         timestamp,
-        payload
+        payload,
+        history
     });
 
     action.request
