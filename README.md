@@ -1,5 +1,7 @@
 # redux-request-tracker
 
+*NOTE:* `redux-request-tracker` is beta, however I do not expect the API to change too much if at all from what you see in there today. It's fairly close to being feature complete, just need to get around to writing some robust tests. My plans are to keep this a simple tool that will always be responsible for managing & working with async state only. I am using this in a few personal projects and find it to be a valuable tool. I hope it's just as valuable to you.
+
 ## About redux-request-tracker
 
 ### What is redux-request-tracker?
@@ -89,7 +91,7 @@ import { reducer as request } from 'redux-request-tracker' // <- IMPORT REDUCER
 export default combineReducers({
   todos,
   counter,
-  request // <- ADD REDUCER
+  request // <- ADD REDUCER | NOTE! As of right now, you must name this reducer "request".
 })
 ```
 
