@@ -1,9 +1,42 @@
 # redux-request-tracker
 
-## What is redux-request-tracker?
+## About redux-request-tracker
+
+### What is redux-request-tracker?
 
 `redux-request-tracker` is a package that aims to make working with
 async data and pagination a breeze.
+
+### Why redux-request-tracker?
+
+So there are numbner of other packages / patterns out there for tracking async state in your redux applications. [here](http://redux.js.org/docs/advanced/AsyncActions.html) is a good artical for how redux recommends tacking async state. Note that the state is mixed in alongside the data it is related to.
+
+```js
+postsBySubreddit: {
+    frontend: {
+        isFetching: true,
+        didInvalidate: false,
+        items: []
+    },
+    reactjs: {
+        isFetching: false,
+        didInvalidate: false,
+        lastUpdated: 1439478405547,
+        items: [ 42, 100 ]
+    }
+}
+```
+
+This is one vaild approach for handling async data but it comes with its tradeoffs. There is a decent amount of boilerplate that needs to go into your actions and reducers to handle all of the async logic, `INVALIDATE_SOMETHING`, `REQUEST_SOMETHING`, `RECEIVE_SOMETHING`.
+
+`redux-request-tracker` takes a different approach. All async actions pass through middleware which is responsible for setting up all the request, response, and failure logic. Then using higher order view components and data accessors, you tap into request state managed by the middleware for you. There are some nice side effects that come organizing your code like this.
+
+1. All async logic is separated for *raw data*
+   Okay so what does that really mean? Well now your `posts` collection only contains posts and is only concerned with posts. When your UI needs to respond to async events (`isLoading`), you just query your request store using the provided data accessors & or use the provided HO component(s).
+1. All async data is collocated
+   What does that buy you? Glad you asked :) so now you can perform queries on you async state easily to determine things like "how often do I make this request?", "what routes call which endpoints", "how often does this request get called?", and so on.
+1. Request state history
+   I just alluded to this a bit, but the way `redux-request-tracker` stores its data, it accumulates requests and has working memory of all requests that have been made for the life of the session.
 
 ## Getting Started
 
@@ -153,11 +186,11 @@ This will map the request tracking props to your Component
 - lastPage          *boolean* (if link headers are being used, this will notify the component if the last page has been fetched)
 - requestDispatched *boolean* (determins if a namespaced request has ever been dispatched)
 
-### Data accessors
+## Data accessors
 
 Now that all of your request data is managed in redux state, we need a way to access it in out views. The following are data accessors that come out of the box with `redux-request-tracker`, feel free to add your own or submit an isses if you would like to see any additions to this.
 
-#### `getRequest`
+### `getRequest`
 
 Get request is your go to data accessor for determining the state of your request.
 
@@ -171,7 +204,21 @@ const mapStateToProps = (state) => {
 };
 ```
 
-#### Pagination accessors
+### `getAppHistory`
+
+This data accessor is more useful if you're analyzing your async events.
+
+```js
+const { getAppHistory } from 'redux-request-tracker';
+
+const mapStateToProps = (state) => {
+    return {
+        appHistory: getAppHistory(state)
+    };
+};
+```
+
+### Pagination accessors
 
 These data accessors are responsible for parsing request pagination if supported. Check out the *Pagination* section for more information.
 
@@ -191,6 +238,10 @@ const mapStateToProps = (state) => {
 ### Pagination
 
 `redux-request-tracker` automatically parses the [Link Header](https://tools.ietf.org/html/rfc5988) if your server supports it. GitHub has a [good example](https://developer.github.com/guides/traversing-with-pagination/) of how this works.
+
+### Roadmap
+
+1. I want to add some components that are useful for working with the request history object returned from `getAppHistory`.
 
 ### Suggestions?
 
