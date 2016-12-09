@@ -1,6 +1,11 @@
 {
   "dependencies": {
     "parse-link-header": "registry:npm/parse-link-header#0.4.1+20160909152139",
-    "ramda": "registry:npm/ramda#0.21.0+20160531162943"
+    "ramda": "registry:npm/ramda#0.21.0+20160531162943",
+    "react": "registry:npm/react#15.0.1+20160601175240",
+    "react-redux": "registry:npm/react-redux#4.4.0+20160614222153"
+  },
+  "globalDependencies": {
+    "jest": "registry:dt/jest#16.0.0+20161025131017"
   }
 }

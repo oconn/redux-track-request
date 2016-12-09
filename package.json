@@ -1,8 +1,14 @@
 {
   "name": "redux-request-tracker",
-  "version": "0.0.1-beta.5",
+  "version": "0.0.1-beta.6",
   "description": "Redux binding and utilities for working with xhr request data",
-  "keywords": [ "redux", "react", "middleware", "request", "async" ],
+  "keywords": [
+    "redux",
+    "react",
+    "middleware",
+    "request",
+    "async"
+  ],
   "main": "lib/index.js",
   "author": "Matt O'Connell",
   "license": "MIT",
@@ -15,11 +21,16 @@
   },
   "homepage": "https://github.com/oconn/redux-track-request#readme",
   "scripts": {
-    "start": "webpack -w"
+    "start": "webpack -w",
+    "test": "jest",
+    "test:watch": "npm test -- --watch"
   },
   "devDependencies": {
+    "jest": "^17.0.3",
+    "json-schema": "^0.2.3",
     "react": "^15.4.1",
     "redux": "^3.6.0",
+    "redux-mock-store": "^1.2.1",
     "source-map-loader": "^0.1.5",
     "ts-loader": "^1.2.2",
     "typings": "^2.0.0",
@@ -34,5 +45,16 @@
     "parse-link-header": "^0.4.1",
     "ramda": "^0.22.1",
     "react-redux": "^4.4.6"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
+    },
+    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$"
   }
 }
