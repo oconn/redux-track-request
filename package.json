@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/oconn/redux-track-request#readme",
   "scripts": {
+    "build": "webpack",
     "start": "webpack -w",
     "test": "jest",
     "test:watch": "npm test -- --watch"
