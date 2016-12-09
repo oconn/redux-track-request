@@ -7,9 +7,10 @@ const initialState: IReducerState = {};
 
 const actionHandlers = {
     [TRACK_REQUEST]: (state: IReducerState, action: IReducerAction): IReducerState => {
-        const { requestId, timestamp, payload } = action;
+        const { requestId, timestamp, payload, history } = action;
 
         return compose(
+            set(lensPath([requestId, 'history', timestamp]), history) as (state: IReducerState) => IReducerState,
             set(lensPath([requestId, 'activeRequest']), timestamp) as (state: IReducerState) => IReducerState,
             set(lensPath([requestId, 'requests', timestamp]), payload) as (state: IReducerState) => IReducerState
         )(state);

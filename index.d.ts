@@ -3,6 +3,11 @@ import { Action, Store, Middleware, Dispatch } from 'redux';
 export type RequestMiddleware = (options: IOptions) => Middleware;
 export type RequestReducer = (state: IReducerState, action: Action) => IReducerState;
 type IRequestNameFunction = any; // TODO: This throws a type error. (props: IRequestHOProps) => string;
+type IRequestObject = Promise<any> & {
+    method?: string;
+    url?: string;
+}
+
 
 export type IBody = any;
 
@@ -20,16 +25,26 @@ export interface IRequestState {
     requestData: IResponseData | null;
 }
 
+export interface IRequestHistoryState {
+    requestingPage: string;
+    method: string;
+    url: string;
+}
+
 export type IReducerAction = Action & {
     type: string;
     requestId: string;
     timestamp: string;
     payload: IRequestState;
+    history: IRequestHistoryState;
 };
 
 export interface IRequestHistory {
     requests: {
         [timestamp: string]: IRequestState;
+    };
+    history: {
+        [timestamp: string]: IRequestHistoryState;
     };
     activeRequest: string;
 }
@@ -39,12 +54,14 @@ export interface IReducerState {
 }
 
 export interface IOptions {
-    onUnauthorized: () => any;
+    onUnauthorized?: () => any;
+    getRequestMethod?: (request: IRequestObject) => string;
+    getRequestUrl?: (request: IRequestObject) => string;
 }
 
 export interface IRequestAction {
-    request: Promise<any>;
     type: string;
+    request: IRequestObject;
     onSuccess?: (body: IBody) => any;
     onFailure?: (error: IError) => any;
 }
