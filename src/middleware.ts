@@ -21,7 +21,7 @@ const isRequestAction = (action: Action | IRequestAction): action is IRequestAct
 
 // custom response parsers used to make accessing response data a bit easier
 const parseResponseData = (response: IResponse): IResponseData => {
-    const { headers } = response;
+    const { headers = {} } = response;
 
     return compose(
         over(lensProp('link'), parseLinkHeader),
