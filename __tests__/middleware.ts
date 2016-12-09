@@ -1,5 +1,5 @@
 /// <reference path='../typings/globals/jest/index.d.ts' />
-/// <reference path='../typings/globals/es6-promise/index.d.ts' />
+/// <reference path='../node_modules/typescript/lib/lib.es6.d.ts' />
 
 import configureStore from 'redux-mock-store'
 import { middleware } from '../src';
@@ -8,7 +8,7 @@ const mockStore = configureStore([ middleware({}) ]);
 
 const waitForResponse = () => new Promise((resolve, reject) => {
     setTimeout(() => {
-        resolve();
+        resolve({});
     }, 1)
 });
 
