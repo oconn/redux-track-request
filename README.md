@@ -1,5 +1,7 @@
 # redux-request-tracker
 
+[![CircleCI](https://circleci.com/gh/oconn/redux-track-request/tree/master.svg?style=svg)](https://circleci.com/gh/oconn/redux-track-request/tree/master)
+
 *NOTE:* `redux-request-tracker` is in beta, however I do not expect the API to change too much if at all, so you *should* be able to depend on what you see in there today. It's fairly close to being feature complete, so feel free to play with it as is now, or wait for the v1.0.0 release. My plans are to keep this a simple tool responsible for managing & working with async state. I am using this in a few personal projects and find it to be a valuable tool. I hope it's just as valuable to you.
 
 ## About redux-request-tracker
