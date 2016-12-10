@@ -35,6 +35,11 @@ const handleRequestSuccess = (store: Store<IAppState>, action: IRequestAction, t
         action.onSuccess(response.body);
     }
 
+    // if complete callback was specificied then trigger
+    if (action.complete && is(Function, action.complete)) {
+        action.complete();
+    }
+
     const payload: IRequestState = {
         error: null,
         status: response.status,
@@ -59,8 +64,13 @@ const handleRequestFailure = (store: Store<IAppState>, action: IRequestAction, t
         action.onFailure(error);
     }
 
+    // if complete callback was specificied then trigger
+    if (action.complete && is(Function, action.complete)) {
+        action.complete();
+    }
+
     // if onUnauthorized callback is specified in options then trigger
-    if (error.status === 401 && (onUnauthorized && is(Function, onUnauthorized))) {
+    if (error.status === 401 && (!!onUnauthorized && is(Function, onUnauthorized))) {
         onUnauthorized();
     }
 

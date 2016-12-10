@@ -64,6 +64,7 @@ export interface IRequestAction {
     request: IRequestObject;
     onSuccess?: (body: IBody) => any;
     onFailure?: (error: IError) => any;
+    complete?: () => any;
 }
 
 export interface ILinkPage {

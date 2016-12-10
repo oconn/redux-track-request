@@ -24,6 +24,7 @@
     "build": "webpack",
     "start": "webpack -w",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "npm test -- --watch"
   },
   "devDependencies": {

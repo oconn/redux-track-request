@@ -118,6 +118,12 @@ export const getTodos = () => {
           type: 'TODOS_UPDATE_TODOS',
           payload: todos
         });
+      },
+      onFailure: (err) => {
+          // Respond to error
+      },
+      complete: () => {
+          // Do something on error or success
       }
     });
   };
@@ -136,12 +142,15 @@ The following are the currently supported request action options.
 - request:    Promise   (required)
 - onSuccess:  Function  (optional)  callback that receives the request body
 - onFailure:  Function  (optional)  callback that receives the response error on failure
+- complete:   Function  (optional)  callback that is triggered after success or failure
 
 ### Middleware options
 
 The `redux-request-tracker` middleware takes the following options
 
-- onUnauthorized:  Function  (optional)  callback triggered on all 401 responses
+- onUnauthorized:   Function (request) => any    | optional | callback triggered on all 401 responses
+- getRequestMethod: Function (request) => string | optional | override for getting the request method from your request object, may differ from request lib to request lib.
+- getRequestUrl:    Function (request) => string | optional | override for getting the request url from your request object, may differ from request lib to request lib.
 
 ### Connecting to your components
 

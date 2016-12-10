@@ -15,3 +15,6 @@ src
 
 # TypeScript
 typings/
+
+# Coverage
+coverage
