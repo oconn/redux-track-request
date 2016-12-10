@@ -1,5 +1,5 @@
 import { concat, toPairs, pathOr, values, flatten, map, merge, reduce, head, last } from 'ramda';
-import { IAppState, IRequestState, ILinkPage, IRequestHistory } from '../';
+import { IAppState, IRequestState, ILinkPage, IRequestHistory, IAppHistoryRecord } from '../';
 
 export const getRequest = (requestName: string, state: IAppState): IRequestState | undefined => {
     const activeRequest: string | undefined = pathOr(undefined, ['request', requestName, 'activeRequest'], state);
@@ -13,7 +13,7 @@ const _getPage = (requestName: string, state: IAppState, pageType: string): ILin
     return request ? pathOr(undefined, ['requestData', 'link', pageType], request) : undefined;
 };
 
-export const getAppHistory = (state: IAppState): any => {
+export const getAppHistory = (state: IAppState): IAppHistoryRecord[] => {
     const nameSpacedRequests = values(pathOr({}, ['request'], state)) as IRequestHistory[];
     const nameSpacedHistory = flatten(map(nsr => nsr.history, nameSpacedRequests)) as any[];
     const mergedHistory = reduce((acc, history) => {

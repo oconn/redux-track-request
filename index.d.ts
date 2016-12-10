@@ -39,6 +39,13 @@ export type IReducerAction = Action & {
     history: IRequestHistoryState;
 };
 
+export interface IAppHistoryRecord {
+    method?: string;
+    url?: string;
+    timestamp: string;
+    requestingPage: string;
+}
+
 export interface IRequestHistory {
     requests: {
         [timestamp: string]: IRequestState;
