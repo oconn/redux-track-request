@@ -4,8 +4,8 @@ npm-debug.log*
 node_modules
 jspm_packages
 
-# Distribution
-lib
+# Source
+src
 
 # Optional REPL history
 .node_repl_history
