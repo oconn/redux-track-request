@@ -1,17 +1,16 @@
 # redux-request-tracker
 
-*NOTE:* `redux-request-tracker` is beta, however I do not expect the API to change too much if at all from what you see in there today. It's fairly close to being feature complete, just need to get around to writing some robust tests. My plans are to keep this a simple tool that will always be responsible for managing & working with async state only. I am using this in a few personal projects and find it to be a valuable tool. I hope it's just as valuable to you.
+*NOTE:* `redux-request-tracker` is in beta, however I do not expect the API to change too much if at all, so you *should* be able to depend on what you see in there today. It's fairly close to being feature complete, so feel free to play with it as is now, or wait for the v1.0.0 release. My plans are to keep this a simple tool responsible for managing & working with async state. I am using this in a few personal projects and find it to be a valuable tool. I hope it's just as valuable to you.
 
 ## About redux-request-tracker
 
 ### What is redux-request-tracker?
 
-`redux-request-tracker` is a package that aims to make working with
-async data and pagination a breeze.
+`redux-request-tracker` is a package that aims to make working with async data and pagination (link headers support only) a breeze.
 
 ### Why redux-request-tracker?
 
-So there are numbner of other packages / patterns out there for tracking async state in your redux applications. [here](http://redux.js.org/docs/advanced/AsyncActions.html) is a good artical for how redux recommends tacking async state. Note that the state is mixed in alongside the data it is related to.
+So there are number of other packages / patterns out there for tracking async state in your redux applications. [here](http://redux.js.org/docs/advanced/AsyncActions.html) is a good artical for how redux recommends tacking async state. Note that the state is mixed in alongside the data it is related to.
 
 ```js
 postsBySubreddit: {
@@ -29,16 +28,23 @@ postsBySubreddit: {
 }
 ```
 
-This is one vaild approach for handling async data but it comes with its tradeoffs. There is a decent amount of boilerplate that needs to go into your actions and reducers to handle all of the async logic, `INVALIDATE_SOMETHING`, `REQUEST_SOMETHING`, `RECEIVE_SOMETHING`.
+This is one vaild approach for handling async data, but it comes with tradeoffs.
 
-`redux-request-tracker` takes a different approach. All async actions pass through middleware which is responsible for setting up all the request, response, and failure logic. Then using higher order view components and data accessors, you tap into request state managed by the middleware for you. There are some nice side effects that come organizing your code like this.
+1. Boilerplate: There is a decent amount of boilerplate that needs to go into your actions and reducers to handle all of the async logic, `INVALIDATE_SOMETHING`, `REQUEST_SOMETHING`, `RECEIVE_SOMETHING`.
+1. Mixed-in metadata: With this approach each reducer is responsible for updating & tracking it's own async data.
+
+`redux-request-tracker` takes a different approach. All async actions pass through middleware which is responsible for setting up all the request, response, and failure logic. Then using higher order view components and data accessors, you're able to tap into request state managed by the middleware. There are some nice side effects that come along with organizing your code like this.
 
 1. All async logic is separated for *raw data*
-   Okay so what does that really mean? Well now your `posts` collection only contains posts and is only concerned with posts. When your UI needs to respond to async events (`isLoading`), you just query your request store using the provided data accessors & or use the provided HO component(s).
+   Okay so what does that really mean? Let's say you have a `posts` collection. This collection no longer needs to care about whether or not it's loading so it can just focus on the state of posts. When your UI needs to respond to async events, like `isLoading`, you query your request store using the provided data accessors & or use the provided HO component(s).
 1. All async data is collocated
-   What does that buy you? Glad you asked :) so now you can perform queries on you async state easily to determine things like "how often do I make this request?", "what routes call which endpoints", "how often does this request get called?", and so on.
+   What does that buy you? Glad you asked :) so now you can easily perform queries on **all** you async state to determine;
+   - "how often do I make this request?",
+   - "what routes call which endpoints",
+   - "how often does this request get called?",
+   - and so on.
 1. Request state history
-   I just alluded to this a bit, but the way `redux-request-tracker` stores its data, it accumulates requests and has working memory of all requests that have been made for the life of the session.
+   I just alluded to this a bit in the previous point, but the way `redux-request-tracker` stores its data, it accumulates requests in working memory for all async events that have been triggered for the life of the session. This makes it easy to answer some of the questions above.
 
 ## Getting Started
 
