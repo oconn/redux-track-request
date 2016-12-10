@@ -12,4 +12,4 @@ dependencies:
     - yarn install
 test:
   override:
-    - yarn test
+    - yarn coveralls

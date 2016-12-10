@@ -24,10 +24,11 @@
     "build": "webpack",
     "start": "webpack -w",
     "test": "jest",
-    "test:coverage": "jest --coverage",
+    "coveralls": "jest --no-cache --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test:watch": "npm test -- --watch"
   },
   "devDependencies": {
+    "coveralls": "^2.11.15",
     "jest": "^17.0.3",
     "react": "^15.4.1",
     "redux": "^3.6.0",
