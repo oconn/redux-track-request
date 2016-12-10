@@ -9,7 +9,7 @@ const mockStore = configureStore([ middleware({}) ]);
 const waitForResponse = () => new Promise((resolve, reject) => {
     setTimeout(() => {
         resolve({});
-    }, 1)
+    }, 10)
 });
 
 describe('redux-request-tracker middleware', () => {
@@ -49,11 +49,9 @@ describe('redux-request-tracker middleware', () => {
 
         const validAction = {
             type: 'ANY_ACTION',
-            request: new Promise((resolve, reject) => {
-                resolve({
-                    status: 200,
-                    body: []
-                })
+            request: Promise.resolve({
+                status: 200,
+                body: []
             })
         };
 
