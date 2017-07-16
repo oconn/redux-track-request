@@ -12,6 +12,11 @@ import {
 } from '../';
 
 const isLastPage = (link: ILink): boolean => {
+    // Return when no pagination headers have been found
+    if (not(link)) {
+        return true;
+    }
+
     return link.next ? not(link.next.url) : true;
 };
 
