@@ -1,6 +1,6 @@
 {
   "name": "redux-request-tracker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Redux binding and utilities for working with xhr request data",
   "keywords": [
     "redux",
