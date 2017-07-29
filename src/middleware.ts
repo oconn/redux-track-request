@@ -76,7 +76,7 @@ const handleRequestFailure = (store: Store<IAppState>, action: IRequestAction, t
 
     const payload: IRequestState = {
         error: error,
-        status: null,
+        status: error.status,
         requestData: null
     };
 
