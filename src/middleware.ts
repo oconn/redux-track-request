@@ -54,6 +54,8 @@ const handleRequestSuccess = (store: Store<IAppState>, action: IRequestAction, t
             payload
         });
     }, 0);
+
+    return undefined;
 };
 
 const handleRequestFailure = (store: Store<IAppState>, action: IRequestAction, timestamp: string, options: IOptions) => (error: IError): void => {
@@ -86,6 +88,8 @@ const handleRequestFailure = (store: Store<IAppState>, action: IRequestAction, t
         timestamp,
         payload
     });
+
+    return undefined;
 };
 
 export const middleware: RequestMiddleware = (options: IOptions = {}) => (store: Store<IAppState>) => (next: Dispatch<IAppState>) => (action: Action) => {
